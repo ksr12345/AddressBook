@@ -107,37 +107,64 @@ public class AddressBook implements Comparable<AddressBook>{
         return contacts;
     }
 
-    public static void deleteContact(String firstName, String lastName) {
-        Iterator<AddressBook> iterator = contacts.iterator();
-        while (iterator.hasNext()) {
-            AddressBook contact = iterator.next();
-            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
-                iterator.remove();
-                System.out.println("Contact deleted successfully.");
-                return;
+    public static void addContact(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String email) {
+        AddressBook newContact = new AddressBook(firstName, lastName, address, city, state, zip, phoneNumber, email);
+        contacts.add(newContact);
+    }
+
+    public static void displayAllContacts() {
+        if (contacts.isEmpty()) {
+            System.out.println("Address book is empty.");
+        } else {
+            System.out.println("All Contacts:");
+            for (AddressBook contact : contacts) {
+                contact.display();
             }
         }
-        System.out.println("Contact not found.");
     }
 
     public static void main(String[] args) {
 
-        AddressBook contact1 = new AddressBook("John", "Doe", "123 Main St", "Anytown", "NY", "12345", "555-1234", "john.doe@example.com");
-        AddressBook contact2 = new AddressBook("Jane", "Smith", "456 Elm St", "Othertown", "CA", "67890", "555-5678", "jane.smith@example.com");
-        AddressBook contact3 = new AddressBook("Alice", "Johnson", "789 Oak St", "Somewhere", "TX", "13579", "555-9876", "alice.johnson@example.com");
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\nAll Contacts:");
-        List<AddressBook> allContacts = AddressBook.getAllContacts();
-        for (AddressBook contact : allContacts) {
-            contact.display();
-        }
+        System.out.println("Welcome to Address Book");
 
-        AddressBook.deleteContact("John", "Doe");
+        char choice;
+        do {
+            System.out.println("Enter details for new contact:");
+            System.out.print("First Name: ");
+            String firstName = scanner.nextLine();
 
-        System.out.println("After Deletion:");
-        for (AddressBook contact : allContacts) {
-            contact.display();
-        }
+            System.out.print("Last Name: ");
+            String lastName = scanner.nextLine();
 
+            System.out.print("Address: ");
+            String address = scanner.nextLine();
+
+            System.out.print("City: ");
+            String city = scanner.nextLine();
+
+            System.out.print("State: ");
+            String state = scanner.nextLine();
+
+            System.out.print("Zip: ");
+            String zip = scanner.nextLine();
+
+            System.out.print("Phone Number: ");
+            String phoneNumber = scanner.nextLine();
+
+            System.out.print("Email: ");
+            String email = scanner.nextLine();
+
+            AddressBook.addContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
+
+            System.out.print("Do you want to add another contact? (y/n): ");
+            choice = scanner.nextLine().charAt(0);
+        } while (choice == 'y' || choice == 'Y');
+
+        // Display all contacts in the address book
+        AddressBook.displayAllContacts();
+
+        scanner.close();
     }
 }
