@@ -107,17 +107,13 @@ public class AddressBook implements Comparable<AddressBook>{
         return contacts;
     }
 
-
-    public static void editContact(String firstName, String lastName, String newAddress, String newCity, String newState, String newZip, String newPhoneNumber, String newEmail) {
-        for (AddressBook contact : contacts) {
+    public static void deleteContact(String firstName, String lastName) {
+        Iterator<AddressBook> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            AddressBook contact = iterator.next();
             if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
-                contact.setAddress(newAddress);
-                contact.setCity(newCity);
-                contact.setState(newState);
-                contact.setZip(newZip);
-                contact.setPhoneNumber(newPhoneNumber);
-                contact.setEmail(newEmail);
-                System.out.println("Contact edited successfully.");
+                iterator.remove();
+                System.out.println("Contact deleted successfully.");
                 return;
             }
         }
@@ -128,19 +124,20 @@ public class AddressBook implements Comparable<AddressBook>{
 
         AddressBook contact1 = new AddressBook("John", "Doe", "123 Main St", "Anytown", "NY", "12345", "555-1234", "john.doe@example.com");
         AddressBook contact2 = new AddressBook("Jane", "Smith", "456 Elm St", "Othertown", "CA", "67890", "555-5678", "jane.smith@example.com");
+        AddressBook contact3 = new AddressBook("Alice", "Johnson", "789 Oak St", "Somewhere", "TX", "13579", "555-9876", "alice.johnson@example.com");
 
-        System.out.println("Before editing:");
-        System.out.println("Contact 1:");
-        contact1.display();
-        System.out.println("Contact 2:");
-        contact2.display();
+        System.out.println("\nAll Contacts:");
+        List<AddressBook> allContacts = AddressBook.getAllContacts();
+        for (AddressBook contact : allContacts) {
+            contact.display();
+        }
 
-        AddressBook.editContact("John", "Doe", "456 New Address", "NewCity", "NewState", "98765", "555-9999", "new.email@example.com");
+        AddressBook.deleteContact("John", "Doe");
 
-        System.out.println("After editing:");
-        System.out.println("Contact 1:");
-        contact1.display();
-        System.out.println("Contact 2:");
-        contact2.display();
+        System.out.println("After Deletion:");
+        for (AddressBook contact : allContacts) {
+            contact.display();
+        }
+
     }
 }
